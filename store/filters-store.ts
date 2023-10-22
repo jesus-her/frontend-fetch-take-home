@@ -5,6 +5,12 @@ interface FilterState {
   filterBreed: string | null;
   setFilterBreed: (value: string | null) => void;
 
+  // filter Breeds on select
+  availableBreeds: string[];
+  selectedBreed: Set<string>;
+  setSelectedBreed: (value: any) => void;
+  fetchDogBreeds: () => Promise<void>;
+
   // filter order
   selectedOrder: Set<string>;
   setSelectedOrder: (value: any) => void;
@@ -34,6 +40,7 @@ interface FilterState {
 export const useFilterStore = create<FilterState>((set) => ({
   filterBreed: null,
   setFilterBreed: (value) => set({ filterBreed: value }),
+  availableBreeds: [],
 
   //   // by breed
   //   sortByBreed: false,
@@ -49,12 +56,47 @@ export const useFilterStore = create<FilterState>((set) => ({
 
   filteredDogs: [],
   setFilteredDogs: (dogs) => set({ filteredDogs: dogs }),
+
   sortedDogs: [],
   setSortedDogs: (dogs) => set({ sortedDogs: dogs }),
+
+  selectedBreed: new Set([""]),
+  setSelectedBreed: (value: any) => set({ selectedBreed: value }),
 
   selectedOrder: new Set(["asc"]),
   setSelectedOrder: (value: any) => set({ selectedOrder: value }),
 
-  selectedSortBy: new Set(["name"]),
+  selectedSortBy: new Set([""]),
   setSelectedSortBy: (value: any) => set({ selectedSortBy: value }),
+
+  fetchDogBreeds: async () => {
+    // set({ loading: true });
+    try {
+      const postResponse = await fetch(
+        "https://frontend-take-home-service.fetch.com/dogs/breeds",
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        }
+      );
+
+      if (postResponse.ok) {
+        const dogBreeds = await postResponse.json();
+        // console.log("BREEED", dogBreeds);
+
+        set({ availableBreeds: dogBreeds });
+        // set({ loading: false });
+      } else {
+        console.error("Error en la solicitud POST /dogs");
+        // set({ loading: false });
+
+        // set({ isSessionExpired: true });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  },
 }));

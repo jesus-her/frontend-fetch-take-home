@@ -1,12 +1,13 @@
 import { Dog } from "@/app/types";
 import { create } from "zustand";
+import { useFilterStore } from "./filters-store";
 
 interface State {
   // loading
   loading: boolean;
   // all dogs
   dogs: Dog[];
-  fetchDogs: () => Promise<void>;
+  fetchDogs: (params: string) => Promise<void>;
   // liked dogs ids
   likedDogs: string[];
   myLikedDogs: Dog[];
@@ -62,7 +63,7 @@ export const useDogsStore = create<State>((set, get) => {
       });
     },
     setTotalResults: (results) => set({ totalResults: results }),
-    fetchDogs: async () => {
+    fetchDogs: async (params) => {
       set({ loading: true });
       try {
         // Realizar la solicitud para obtener los datos de los perros desde la API
@@ -71,7 +72,7 @@ export const useDogsStore = create<State>((set, get) => {
             get().resultsPeerPage
           }&from=${
             (get().currentPage - 1) * get().resultsPeerPage
-          }&sort=breed:asc`,
+          }&sort=${params}`,
           {
             method: "GET",
             headers: {

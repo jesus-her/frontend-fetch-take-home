@@ -11,7 +11,6 @@ import {
 import { BsHeartFill } from "react-icons/bs";
 import { MatchedDogModal } from "./matched-dog-modal";
 import { useDogsStore } from "@/store/dogs-store";
-import SkeletonLoad from "./skeleton";
 
 export function DogsList({ dogs }: { dogs: Dog[] }) {
   const loading = useDogsStore((state) => state.loading);
@@ -64,8 +63,15 @@ export function DogsList({ dogs }: { dogs: Dog[] }) {
               <h2 className=" font-bold text-xl mt-2">{dog.name}</h2>
 
               {/* <h2>{dog.zip_code}</h2> */}
+              <BsHeartFill
+                className={`${
+                  likedDogs.includes(dog.id)
+                    ? "text-red-500"
+                    : "text-black/80 dark:text-white/80"
+                } text-2xl z-10 data-[hover]:bg-foreground/10 -translate-y-2 translate-x-2 absolute top-4 right-4`}
+              />
 
-              <Button
+              {/* <Button
                 isIconOnly
                 disabled
                 className=" z-10 data-[hover]:bg-foreground/10 -translate-y-2 translate-x-2 absolute top-3 right-3"
@@ -80,7 +86,7 @@ export function DogsList({ dogs }: { dogs: Dog[] }) {
                       : "text-black/80 dark:text-white/80"
                   } text-2xl`}
                 />
-              </Button>
+              </Button> */}
             </CardBody>
           </Skeleton>
           <Skeleton isLoaded={!loading} className=" w-full">

@@ -26,7 +26,7 @@ export default function BottomTabs() {
               key="home"
               title={
                 <div
-                  onClick={() => router.push("/home")}
+                  onClick={() => router.push("/")}
                   className="flex items-center space-x-2"
                 >
                   <BsHouseFill />

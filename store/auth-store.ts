@@ -39,7 +39,7 @@ export const useAuthStore = create<State>((set, get) => {
       })
         .then((res) => {
           if (res.ok) {
-            window.location.replace("/home");
+            window.location.replace("/");
           }
           set({ loading: false });
         })
