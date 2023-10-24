@@ -73,11 +73,12 @@ export function DogsList({ dogs }: { dogs: Dog[] }) {
                   .filter((location) => location?.zip_code === dog?.zip_code)
                   .map((location, index) => (
                     <Chip
+                      key={index}
                       startContent={<BsGeoFill />}
                       variant="flat"
                       color="success"
                     >
-                      <h2 key={index} className="font-semibold text-xs">
+                      <h2 className="font-semibold text-xs">
                         {location.city}, {location.state}
                       </h2>
                     </Chip>

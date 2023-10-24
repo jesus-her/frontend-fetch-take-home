@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo } from "react";
 import { DogsList } from "@/components/dogs-list";
-import { Pagination, Spinner } from "@nextui-org/react";
+import { Pagination, Progress } from "@nextui-org/react";
 import { useDogsStore } from "@/store/dogs-store";
 import { useFilterStore } from "@/store/filters-store";
 import Filters from "@/components/filters";
@@ -63,7 +63,13 @@ export default function Home() {
       <Filters />
 
       {loading ? (
-        <p className=" text-xs opacity-70">Loading ...</p>
+        <Progress
+          size="sm"
+          isIndeterminate
+          aria-label="Loading..."
+          className="max-w-md"
+          color="warning"
+        />
       ) : (
         <p className=" text-xs opacity-70">
           About {totalResults * resultsPeerPage} results found
