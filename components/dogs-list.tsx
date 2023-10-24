@@ -1,21 +1,29 @@
-import { Dog } from "@/app/types";
+import { Dog, Location } from "@/app/types";
 import {
   Button,
   Card,
   CardBody,
   CardFooter,
+  Chip,
   Image,
   Skeleton,
   Spinner,
 } from "@nextui-org/react";
 
-import { BsHeartFill } from "react-icons/bs";
+import {
+  BsCalendarEventFill,
+  BsCalendarWeekFill,
+  BsGeoFill,
+  BsHeartFill,
+  BsMapFill,
+} from "react-icons/bs";
 import { MatchedDogModal } from "./matched-dog-modal";
 import { useDogsStore } from "@/store/dogs-store";
 
 export function DogsList({ dogs }: { dogs: Dog[] }) {
   const loading = useDogsStore((state) => state.loading);
   const likedDogs = useDogsStore((state) => state.likedDogs);
+  const locations = useDogsStore((state) => state.locations);
   const matchedDog = useDogsStore((state) => state.matchedDog);
   const toggleFavorite = useDogsStore((state) => state.toggleFavorite);
   const matchedModalOpen = useDogsStore((state) => state.matchedModalOpen);
@@ -26,14 +34,6 @@ export function DogsList({ dogs }: { dogs: Dog[] }) {
   const handleCloseModal = () => {
     setMatchedModalOpen(!matchedModalOpen);
   };
-
-  // if (loading) {
-  //   return (
-  //     <section className=" w-full h-full flex flex-1 px-12 py-48 flex-col items-center justify-center ">
-  //       <Spinner size="lg" label="Loading..." color="warning" />
-  //     </section>
-  //   );
-  // }
 
   return (
     <div
@@ -66,8 +66,25 @@ export function DogsList({ dogs }: { dogs: Dog[] }) {
                 alt={dog.name}
                 className="w-full object-cover h-[240px] "
               />
+              <div className=" w-full flex justify-between items-center my-4">
+                <h2 className=" font-bold text-xl">{dog.name}</h2>
 
-              <h2 className=" font-bold text-xl mt-2">{dog.name}</h2>
+                {locations
+                  .filter((location) => location?.zip_code === dog?.zip_code)
+                  .map((location, index) => (
+                    <Chip
+                      startContent={<BsGeoFill />}
+                      variant="flat"
+                      color="success"
+                    >
+                      <h2 key={index} className="font-semibold text-xs">
+                        {location.city}, {location.state}
+                      </h2>
+                    </Chip>
+                  ))}
+
+                {/* <h2 className=" font-bold text-xl mt-2">{locations.has(dog.zip_code === locations.zip_code)}</h2> */}
+              </div>
 
               {/* <h2>{dog.zip_code}</h2> */}
               <BsHeartFill

@@ -16,6 +16,7 @@ export default function FavoritesPage() {
   const fetchLikedDogs = useDogsStore((state) => state.fetchLikedDogs);
   const likedDogs = useDogsStore((state) => state.likedDogs);
   const myLikedDogs = useDogsStore((state) => state.myLikedDogs);
+  const loading = useDogsStore((state) => state.loading);
   const handleMatch = useDogsStore((state) => state.handleMatch);
 
   const router = useRouter();
@@ -28,13 +29,18 @@ export default function FavoritesPage() {
     <section className=" relative">
       {myLikedDogs.length > 0 ? (
         <>
+          <h1 className=" lg:text-5xl text-3xl font-semibold text-left w-full mt-4 mb-8">
+            My favorites{" "}
+            <span className=" lg:text-3xl text-2xl">{`(${myLikedDogs.length})`}</span>
+          </h1>
           <DogsList dogs={myLikedDogs} />
           <Button
+            isLoading={loading}
             onClick={handleMatch}
             color="warning"
             variant="shadow"
             size="lg"
-            className=" fixed bottom-8 z-[11] mx-auto left-0 right-0 w-fit font-semibold text-xl"
+            className=" fixed bottom-8 z-[11] mx-auto left-0 right-0 w-fit font-medium text-lg"
           >
             Match!
           </Button>

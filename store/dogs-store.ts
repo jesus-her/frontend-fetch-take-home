@@ -1,4 +1,4 @@
-import { Dog } from "@/app/types";
+import { Dog, Location } from "@/app/types";
 import { create } from "zustand";
 import { useFilterStore } from "./filters-store";
 
@@ -8,12 +8,16 @@ interface State {
   // all dogs
   dogs: Dog[];
   fetchDogs: (params: string) => Promise<void>;
+
   // liked dogs ids
   likedDogs: string[];
   myLikedDogs: Dog[];
   toggleFavorite: (dogId: string) => void;
   fetchLikedDogs: () => Promise<void>;
 
+  // zip_codes
+  locations: Location[];
+  postLocations: (zipCodesArr: string[]) => Promise<void>;
   // matched dog
   matchedDog: Dog | undefined; // Perro coincidente
   handleMatch: () => Promise<void>; // Función para encontrar un "match"
@@ -34,6 +38,7 @@ export const useDogsStore = create<State>((set, get) => {
     loading: false,
     dogs: [],
     likedDogs: [],
+    locations: [],
     myLikedDogs: [],
     resultsPeerPage: 25,
     matchedModalOpen: false,
@@ -41,10 +46,8 @@ export const useDogsStore = create<State>((set, get) => {
     toggleFavorite: (dogId: string) => {
       set((state) => {
         if (state.likedDogs.includes(dogId)) {
-          // Si el perro ya está en favoritos, quítalo
           return { likedDogs: state.likedDogs.filter((id) => id !== dogId) };
         } else {
-          // Si el perro no está en favoritos, agrégalo
           return { likedDogs: [...state.likedDogs, dogId] };
         }
       });
@@ -56,7 +59,6 @@ export const useDogsStore = create<State>((set, get) => {
     setCurrentPage: (page) => {
       set({ currentPage: page });
 
-      // Realiza un desplazamiento suave hacia la parte superior después de actualizar currentPage
       window.scrollTo({
         top: 0,
         behavior: "smooth",
@@ -66,7 +68,6 @@ export const useDogsStore = create<State>((set, get) => {
     fetchDogs: async (params) => {
       set({ loading: true });
       try {
-        // Realizar la solicitud para obtener los datos de los perros desde la API
         const response = await fetch(
           `https://frontend-take-home-service.fetch.com/dogs/search?size=${
             get().resultsPeerPage
@@ -88,7 +89,6 @@ export const useDogsStore = create<State>((set, get) => {
 
           set({ totalResults: Math.round(data.total / get().resultsPeerPage) });
 
-          // Realizar una solicitud POST para obtener detalles de perros (esto es opcional)
           const postResponse = await fetch(
             "https://frontend-take-home-service.fetch.com/dogs",
             {
@@ -104,19 +104,34 @@ export const useDogsStore = create<State>((set, get) => {
           if (postResponse.ok) {
             const dogDetails = await postResponse.json();
             set({ dogs: dogDetails });
+            const zipCodes = dogDetails.map(
+              (dog: { zip_code: string }) => dog.zip_code
+            );
+            const locationsResponse = await fetch(
+              "https://frontend-take-home-service.fetch.com/locations",
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                credentials: "include",
+                body: JSON.stringify(zipCodes),
+              }
+            );
+
+            const locationsData = await locationsResponse.json();
+            set({ locations: locationsData });
+
             set({ loading: false });
           } else {
             console.error("Error en la solicitud POST /dogs");
             set({ loading: false });
           }
         } else {
-          // Manejar errores de la solicitud GET
           window.location.replace("/login");
         }
       } catch (error) {
-        // Manejar errores de conexión
         console.error(error);
-        // router.push("/login");
       }
     },
 
@@ -206,6 +221,40 @@ export const useDogsStore = create<State>((set, get) => {
 
         // Manejar errores de conexión
         console.error(error);
+      }
+    },
+    postLocations: async (zipCodesArr: string[]) => {
+      console.log("ZIPSSS:", zipCodesArr);
+
+      set({ loading: true });
+      try {
+        const postResponse = await fetch(
+          "https://frontend-take-home-service.fetch.com/locations",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            credentials: "include",
+            body: JSON.stringify(zipCodesArr),
+          }
+        );
+
+        if (postResponse.ok) {
+          const locations = await postResponse.json();
+          // set({ myLikedDogs: dogDetails });
+          console.log(locations);
+
+          set({ loading: false });
+        } else {
+          console.error("Error en la solicitud POST /dogs");
+          set({ loading: false });
+          window.location.replace("/login");
+
+          // set({ isSessionExpired: true });
+        }
+      } catch (error) {
+        console.log(error);
       }
     },
   };

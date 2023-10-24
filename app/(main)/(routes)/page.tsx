@@ -2,13 +2,15 @@
 
 import { useEffect, useMemo } from "react";
 import { DogsList } from "@/components/dogs-list";
-import { Pagination, Progress, Spinner } from "@nextui-org/react";
+import { Button, Pagination, Progress, Spinner } from "@nextui-org/react";
 import { useDogsStore } from "@/store/dogs-store";
 import { useFilterStore } from "@/store/filters-store";
 import Filters from "@/components/filters";
+import { BsHeartFill } from "react-icons/bs";
 
 export default function Home() {
   const fetchDogs = useDogsStore((state) => state.fetchDogs);
+  // const postLocations = useDogsStore((state) => state.postLocations);
   const dogs = useDogsStore((state) => state.dogs);
   const loading = useDogsStore((state) => state.loading);
   const currentPage = useDogsStore((state) => state.currentPage);
@@ -56,6 +58,9 @@ export default function Home() {
 
   return (
     <section>
+      <h1 className=" lg:text-5xl text-3xl font-semibold text-left w-full mt-4 mb-8">
+        Help a lucky dog find a new loving home 🐾
+      </h1>
       <Filters />
 
       {loading ? (
@@ -76,6 +81,8 @@ export default function Home() {
 
       <div className="w-full flex items-center justify-center">
         <Pagination
+          showControls
+          isCompact
           total={totalResults}
           page={currentPage}
           onChange={setCurrentPage}
