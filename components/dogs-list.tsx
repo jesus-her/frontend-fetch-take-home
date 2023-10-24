@@ -6,6 +6,7 @@ import {
   CardFooter,
   Image,
   Skeleton,
+  Spinner,
 } from "@nextui-org/react";
 
 import { BsHeartFill } from "react-icons/bs";
@@ -14,11 +15,9 @@ import { useDogsStore } from "@/store/dogs-store";
 
 export function DogsList({ dogs }: { dogs: Dog[] }) {
   const loading = useDogsStore((state) => state.loading);
-  const resultsPeerPage = useDogsStore((state) => state.resultsPeerPage);
   const likedDogs = useDogsStore((state) => state.likedDogs);
   const matchedDog = useDogsStore((state) => state.matchedDog);
   const toggleFavorite = useDogsStore((state) => state.toggleFavorite);
-  const handleMatch = useDogsStore((state) => state.handleMatch);
   const matchedModalOpen = useDogsStore((state) => state.matchedModalOpen);
   const setMatchedModalOpen = useDogsStore(
     (state) => state.setMatchedModalOpen
@@ -27,6 +26,14 @@ export function DogsList({ dogs }: { dogs: Dog[] }) {
   const handleCloseModal = () => {
     setMatchedModalOpen(!matchedModalOpen);
   };
+
+  // if (loading) {
+  //   return (
+  //     <section className=" w-full h-full flex flex-1 px-12 py-48 flex-col items-center justify-center ">
+  //       <Spinner size="lg" label="Loading..." color="warning" />
+  //     </section>
+  //   );
+  // }
 
   return (
     <div

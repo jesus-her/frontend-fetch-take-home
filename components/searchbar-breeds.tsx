@@ -1,10 +1,11 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Button, Input, Listbox, ListboxItem } from "@nextui-org/react";
 import { useFilterStore } from "@/store/filters-store";
 import { BsSearch, BsXCircleFill } from "react-icons/bs";
 
 export default function SearchBarBreeds() {
-  const { selectedBreed, setSelectedBreed, availableBreeds } = useFilterStore();
+  const { selectedBreed, setSelectedBreed, availableBreeds, fetchDogBreeds } =
+    useFilterStore();
 
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState<string[]>(availableBreeds);
@@ -18,6 +19,9 @@ export default function SearchBarBreeds() {
   const handleSearch = (e: any) => {
     const term = e.target.value;
     setSearchTerm(term);
+    if (searchTerm === "") {
+      setSearchResults(availableBreeds);
+    }
     const filteredResults = availableBreeds.filter((breed) =>
       breed.toLowerCase().includes(term.toLowerCase())
     );
@@ -28,6 +32,10 @@ export default function SearchBarBreeds() {
   const handleBlur = () => {
     setIsDropdownVisible(false);
   };
+
+  useMemo(() => {
+    fetchDogBreeds();
+  }, []);
 
   return (
     <div className="relative flex flex-col gap-2 w-full">

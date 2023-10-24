@@ -49,7 +49,7 @@ export default function CustomNavbar() {
         <NavbarBrand className="mr-4">
           {/* <AcmeLogo /> */}
           <svg
-            className="my-auto w-32 lg:w-fit cursor-pointer"
+            className="my-auto w-24 lg:w-fit cursor-pointer"
             onClick={() => router.push("/")}
             width="210"
             height="45"

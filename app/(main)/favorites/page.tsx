@@ -10,6 +10,7 @@ import {
   BsHeartbreakFill,
   BsSearchHeartFill,
 } from "react-icons/bs";
+import Confetti from "@/components/confetti";
 
 export default function FavoritesPage() {
   const fetchLikedDogs = useDogsStore((state) => state.fetchLikedDogs);
@@ -33,7 +34,7 @@ export default function FavoritesPage() {
             color="warning"
             variant="shadow"
             size="lg"
-            className=" fixed bottom-8 z-[999] mx-auto left-0 right-0 w-fit font-semibold text-xl"
+            className=" fixed bottom-8 z-[11] mx-auto left-0 right-0 w-fit font-semibold text-xl"
           >
             Match!
           </Button>

@@ -33,13 +33,13 @@ export default function Filters() {
     [selectedSortBy]
   );
 
-  useEffect(() => {
-    fetchDogBreeds();
-  }, []);
+  // useEffect(() => {
+  //   fetchDogBreeds();
+  // }, []);
 
   return (
-    <div className=" flex flex-col items-center gap-4 mt-6 mb-8">
-      <div className=" flex flex-col lg:flex-row w-full gap-4 lg:gap-24 items-center justify-center">
+    <div className=" flex flex-col gap-4 mt-6 mb-8">
+      <div className=" flex flex-col lg:flex-row w-full gap-4 lg:gap-24 items-start ">
         <div className=" flex gap-2 w-full items-center">
           {/* Search bar to filter by breed */}
           <SearchBarBreeds />

@@ -1,8 +1,7 @@
 "use client";
-
 import { useEffect, useMemo } from "react";
 import { DogsList } from "@/components/dogs-list";
-import { Pagination, Progress, Spinner } from "@nextui-org/react";
+import { Pagination } from "@nextui-org/react";
 import { useDogsStore } from "@/store/dogs-store";
 import { useFilterStore } from "@/store/filters-store";
 import Filters from "@/components/filters";
@@ -53,7 +52,6 @@ export default function Home() {
   //     </section>
   //   );
   // }
-
   return (
     <section>
       <Filters />
@@ -64,7 +62,6 @@ export default function Home() {
           isIndeterminate
           aria-label="Loading..."
           className="max-w-md"
-          color="warning"
         />
       ) : (
         <p className=" text-xs opacity-70">

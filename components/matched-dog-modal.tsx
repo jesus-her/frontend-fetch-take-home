@@ -8,6 +8,7 @@ import {
   ModalFooter,
   ModalHeader,
 } from "@nextui-org/react";
+import Confetti from "./confetti";
 
 export function MatchedDogModal({
   isOpen,
@@ -20,13 +21,19 @@ export function MatchedDogModal({
 }) {
   return (
     <Modal backdrop={"blur"} isOpen={isOpen} onClose={onClose}>
-      <ModalContent>
+      <ModalContent className=" items-center">
         {(onClose) => (
           <>
-            <ModalHeader className="flex flex-col gap-1">
-              🎉 {matchedDog?.name} 🎉
+            <Confetti />
+
+            <ModalHeader className=" gap-1 text-2xl text-center">
+              <h1>
+                Congratulations! your new best friend is{" "}
+                <span className=" text-secondary">{matchedDog?.name} </span>
+                🥳
+              </h1>
             </ModalHeader>
-            <ModalBody>
+            <ModalBody className=" w-full flex flex-col items-center">
               <Image
                 src={matchedDog?.img}
                 isBlurred
@@ -34,9 +41,12 @@ export function MatchedDogModal({
                 height={200}
                 alt="matched dog"
               />
-              {matchedDog?.breed}
+              <div className=" flex justify-between items-center opacity-50 gap-12">
+                <p>{matchedDog?.breed}</p>
+                <p>{matchedDog?.age} years</p>
+              </div>
             </ModalBody>
-            <ModalFooter>
+            <ModalFooter className=" self-end flex">
               <Button color="danger" variant="light" onPress={onClose}>
                 Close
               </Button>

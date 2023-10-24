@@ -46,7 +46,7 @@ export default function LoginPage() {
                 isLoading={loading}
                 isDisabled={name && email ? false : true || loading}
                 fullWidth
-                color="primary"
+                color="secondary"
                 onClick={handleLogin}
               >
                 Login
