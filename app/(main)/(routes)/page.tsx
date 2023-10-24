@@ -2,11 +2,10 @@
 
 import { useEffect, useMemo } from "react";
 import { DogsList } from "@/components/dogs-list";
-import { Button, Pagination, Progress, Spinner } from "@nextui-org/react";
+import { Pagination, Spinner } from "@nextui-org/react";
 import { useDogsStore } from "@/store/dogs-store";
 import { useFilterStore } from "@/store/filters-store";
 import Filters from "@/components/filters";
-import { BsHeartFill } from "react-icons/bs";
 
 export default function Home() {
   const fetchDogs = useDogsStore((state) => state.fetchDogs);
@@ -64,13 +63,7 @@ export default function Home() {
       <Filters />
 
       {loading ? (
-        <Progress
-          size="sm"
-          isIndeterminate
-          aria-label="Loading..."
-          className="max-w-md"
-          color="warning"
-        />
+        <p className=" text-xs opacity-70">Loading ...</p>
       ) : (
         <p className=" text-xs opacity-70">
           About {totalResults * resultsPeerPage} results found
