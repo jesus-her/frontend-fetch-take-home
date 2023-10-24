@@ -45,7 +45,7 @@ export default function LoginPage() {
               onChange={(e) => setName(e.target.value)}
             />
             <Input
-              maxLength={18}
+              maxLength={36}
               isRequired
               label="Email"
               placeholder="Enter your email"
