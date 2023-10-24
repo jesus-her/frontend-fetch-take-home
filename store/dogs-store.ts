@@ -35,7 +35,7 @@ export const useDogsStore = create<State>((set, get) => {
     dogs: [],
     likedDogs: [],
     myLikedDogs: [],
-    resultsPeerPage: 10,
+    resultsPeerPage: 25,
     matchedModalOpen: false,
     setMatchedModalOpen: (isOpen: boolean) => set({ matchedModalOpen: isOpen }),
     toggleFavorite: (dogId: string) => {
@@ -86,7 +86,7 @@ export const useDogsStore = create<State>((set, get) => {
           const data = await response.json();
           set({ loading: false });
 
-          set({ totalResults: data.total / get().resultsPeerPage });
+          set({ totalResults: Math.round(data.total / get().resultsPeerPage) });
 
           // Realizar una solicitud POST para obtener detalles de perros (esto es opcional)
           const postResponse = await fetch(

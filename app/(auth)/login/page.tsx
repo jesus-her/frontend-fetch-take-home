@@ -1,16 +1,7 @@
 "use client";
 
-import React from "react";
-import {
-  Tabs,
-  Tab,
-  Input,
-  Link,
-  Button,
-  Card,
-  CardBody,
-  CardHeader,
-} from "@nextui-org/react";
+import React, { useEffect } from "react";
+import { Input, Button, Card, CardBody } from "@nextui-org/react";
 import { useAuthStore } from "@/store/auth-store";
 
 export default function LoginPage() {
@@ -20,6 +11,11 @@ export default function LoginPage() {
   const setEmail = useAuthStore((state) => state.setEmail);
   const setName = useAuthStore((state) => state.setName);
   const handleLogin = useAuthStore((state) => state.handleLogin);
+
+  useEffect(() => {
+    setEmail("");
+    setName("");
+  }, []);
 
   return (
     <div className="flex flex-col  w-full ">
