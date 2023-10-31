@@ -1,6 +1,5 @@
 import { Dog, Location } from "@/app/types";
 import { create } from "zustand";
-import { useFilterStore } from "./filters-store";
 
 interface State {
   // loading
@@ -17,7 +16,6 @@ interface State {
 
   // zip_codes
   locations: Location[];
-  postLocations: (zipCodesArr: string[]) => Promise<void>;
   // matched dog
   matchedDog: Dog | undefined; // Perro coincidente
   handleMatch: () => Promise<void>; // Función para encontrar un "match"
@@ -32,8 +30,6 @@ interface State {
 }
 
 export const useDogsStore = create<State>((set, get) => {
-  //   const router = useRouter();
-
   return {
     loading: false,
     dogs: [],
@@ -55,7 +51,6 @@ export const useDogsStore = create<State>((set, get) => {
 
     currentPage: 1,
     totalResults: 25,
-    // setCurrentPage: (page) => set({ currentPage: page }),
     setCurrentPage: (page) => {
       set({ currentPage: page });
 
@@ -159,7 +154,6 @@ export const useDogsStore = create<State>((set, get) => {
           console.error("Error en la solicitud POST /dogs");
           set({ loading: false });
           window.location.replace("/login");
-
           // set({ isSessionExpired: true });
         }
       } catch (error) {
@@ -202,11 +196,7 @@ export const useDogsStore = create<State>((set, get) => {
           if (postResponse.ok) {
             const dogDetails = await postResponse.json();
             set({ matchedDog: dogDetails[0], matchedModalOpen: true });
-            // handleOpen();
-            // Puedes agregar más lógica aquí si es necesario
           } else {
-            // window.location.replace("/login");
-
             // Manejar errores de la solicitud POST
             throw new Error("Error en la solicitud POST /dogs");
           }
@@ -217,44 +207,8 @@ export const useDogsStore = create<State>((set, get) => {
           throw new Error("Error en la solicitud POST /dogs/match");
         }
       } catch (error) {
-        // window.location.replace("/login");
-
         // Manejar errores de conexión
         console.error(error);
-      }
-    },
-    postLocations: async (zipCodesArr: string[]) => {
-      console.log("ZIPSSS:", zipCodesArr);
-
-      set({ loading: true });
-      try {
-        const postResponse = await fetch(
-          "https://frontend-take-home-service.fetch.com/locations",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            credentials: "include",
-            body: JSON.stringify(zipCodesArr),
-          }
-        );
-
-        if (postResponse.ok) {
-          const locations = await postResponse.json();
-          // set({ myLikedDogs: dogDetails });
-          console.log(locations);
-
-          set({ loading: false });
-        } else {
-          console.error("Error en la solicitud POST /dogs");
-          set({ loading: false });
-          window.location.replace("/login");
-
-          // set({ isSessionExpired: true });
-        }
-      } catch (error) {
-        console.log(error);
       }
     },
   };

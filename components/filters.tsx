@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
 
 import {
   Button,
@@ -15,13 +15,8 @@ import { BsArrowDown, BsArrowUp, BsXCircleFill } from "react-icons/bs";
 import SearchBarBreeds from "./searchbar-breeds";
 
 export default function Filters() {
-  const {
-    selectedOrder,
-    setSelectedOrder,
-    selectedSortBy,
-    setSelectedSortBy,
-    fetchDogBreeds,
-  } = useFilterStore();
+  const { selectedOrder, setSelectedOrder, selectedSortBy, setSelectedSortBy } =
+    useFilterStore();
 
   const selectedOrderValue = useMemo(
     () => Array.from(selectedOrder).join(", ").replaceAll("_", " "),
@@ -33,10 +28,6 @@ export default function Filters() {
     [selectedSortBy]
   );
 
-  // useEffect(() => {
-  //   fetchDogBreeds();
-  // }, []);
-
   return (
     <div className=" flex flex-col gap-4 mt-6 mb-8">
       <div className=" flex flex-col lg:flex-row w-full gap-4 lg:gap-24 items-start ">
@@ -46,7 +37,7 @@ export default function Filters() {
         </div>
         <div className=" w-full flex flex-row lg:flex-row-reverse gap-2 items-center justify-start relative">
           <div className=" flex flex-row-reverse gap-2 lg:flex-row">
-            {/* Order  */}
+            {/* Order By*/}
             <Dropdown showArrow>
               <DropdownTrigger>
                 <Button
@@ -74,15 +65,19 @@ export default function Filters() {
                 onSelectionChange={setSelectedOrder}
               >
                 <DropdownItem key="asc">
-                  {selectedSortedByValue === "name" ? "A-Z" : "Younger Age"}
+                  {selectedSortedByValue === "name" || "breed"
+                    ? "A-Z"
+                    : "Younger Age"}
                 </DropdownItem>
                 <DropdownItem key="desc">
-                  {selectedSortedByValue === "name" ? "Z-A" : "Older Age"}
+                  {selectedSortedByValue === "name" || "breed"
+                    ? "Z-A"
+                    : "Older Age"}
                 </DropdownItem>
-                {/* <DropdownItem key="desc">Desc</DropdownItem> */}
               </DropdownMenu>
             </Dropdown>
-            {/* Filter  */}
+
+            {/* More Filters */}
             <Dropdown showArrow>
               <DropdownTrigger>
                 <Button variant="bordered" className="capitalize w-28">
@@ -95,14 +90,14 @@ export default function Filters() {
                 color="warning"
                 aria-label="Single selection example"
                 variant="flat"
-                // disallowEmptySelection
                 selectionMode="single"
                 selectedKeys={selectedSortBy}
                 onSelectionChange={setSelectedSortBy}
+                defaultValue="breed"
               >
                 <DropdownItem key="name">Name</DropdownItem>
-                {/* <DropdownItem key="breed">Breed</DropdownItem> */}
                 <DropdownItem key="age">Age</DropdownItem>
+                <DropdownItem key="breed">Breed</DropdownItem>
               </DropdownMenu>
             </Dropdown>
           </div>

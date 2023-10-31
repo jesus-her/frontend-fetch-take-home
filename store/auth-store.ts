@@ -1,33 +1,3 @@
-// import { create } from "zustand";
-
-// interface State {
-//   // loading
-//   loading: boolean;
-
-//   // input fields to login
-//   name: string;
-//   setName: (name: string) => void;
-//   email: string;
-//   setEmail: (email: string) => void;
-
-//   handleLogin: () => Promise<void>;
-//   handleLogout: () => Promise<void>;
-// }
-
-// export const useAuthStore = create<State>((set, get) => {
-//   return {
-//     loading: false,
-
-//     name: "",
-//     setName: (name: string) => set({ name: name }),
-//     email: "",
-//     setEmail: (email: string) => set({ email: email }),
-
-//     //logout
-
-//   };
-// });
-
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 
@@ -44,9 +14,6 @@ interface State {
   handleLogin: () => Promise<void>;
   handleLogout: () => Promise<void>;
 }
-
-// Define la función para obtener el estado persistido
-const getPersistedState = createJSONStorage(() => sessionStorage);
 
 export const useAuthStore = create(
   persist<State>(
@@ -95,7 +62,6 @@ export const useAuthStore = create(
         )
           .then((res) => {
             set({ loading: false });
-            // console.log("logout", res);
             window.location.replace("/login");
 
             set({ email: "" });

@@ -31,7 +31,6 @@ export default function ThemeContextProvider({
       window.localStorage.setItem("theme", "light");
       document.documentElement.classList.remove("dark");
     }
-    // console.log(theme);
   };
 
   useEffect(() => {

@@ -5,12 +5,7 @@ import { DogsList } from "@/components/dogs-list";
 import { useDogsStore } from "@/store/dogs-store";
 import { Button } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
-import {
-  BsHeartHalf,
-  BsHeartbreakFill,
-  BsSearchHeartFill,
-} from "react-icons/bs";
-import Confetti from "@/components/confetti";
+import { BsSearchHeartFill } from "react-icons/bs";
 
 export default function FavoritesPage() {
   const fetchLikedDogs = useDogsStore((state) => state.fetchLikedDogs);

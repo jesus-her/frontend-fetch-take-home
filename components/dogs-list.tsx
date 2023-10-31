@@ -1,22 +1,14 @@
-import { Dog, Location } from "@/app/types";
+import { Dog } from "@/app/types";
 import {
-  Button,
   Card,
   CardBody,
   CardFooter,
   Chip,
   Image,
   Skeleton,
-  Spinner,
 } from "@nextui-org/react";
 
-import {
-  BsCalendarEventFill,
-  BsCalendarWeekFill,
-  BsGeoFill,
-  BsHeartFill,
-  BsMapFill,
-} from "react-icons/bs";
+import { BsGeoFill, BsHeartFill } from "react-icons/bs";
 import { MatchedDogModal } from "./matched-dog-modal";
 import { useDogsStore } from "@/store/dogs-store";
 
@@ -54,40 +46,27 @@ export function DogsList({ dogs }: { dogs: Dog[] }) {
           isDisabled={loading}
           onPress={() => toggleFavorite(dog.id)}
         >
-          <Skeleton isLoaded={!loading} className=" w-full shadow-none">
+          <Skeleton isLoaded={!loading} className=" w-full h-full shadow-none">
             <CardBody>
               <Image
                 isBlurred
                 src={dog.img}
-                // shadow="sm"
                 radius="sm"
                 width="100%"
                 height="100%"
                 alt={dog.name}
-                className="w-full object-cover h-[240px] "
+                className="w-full object-cover h-[240px]"
               />
-              <div className=" w-full flex justify-between items-center my-4">
+              <div
+                className=" overflow-hidden w-full flex  justify-between
+               items-center my-2"
+              >
                 <h2 className=" font-bold text-xl">{dog.name}</h2>
 
-                {locations
-                  .filter((location) => location?.zip_code === dog?.zip_code)
-                  .map((location, index) => (
-                    <Chip
-                      key={index}
-                      startContent={<BsGeoFill />}
-                      variant="flat"
-                      color="success"
-                    >
-                      <h2 className="font-semibold text-xs">
-                        {location.city}, {location.state}
-                      </h2>
-                    </Chip>
-                  ))}
-
-                {/* <h2 className=" font-bold text-xl mt-2">{locations.has(dog.zip_code === locations.zip_code)}</h2> */}
+                <p className="text-default-500">{dog.age} years</p>
               </div>
+              <b className=" opacity-50 font-medium w-full">{dog.breed}</b>
 
-              {/* <h2>{dog.zip_code}</h2> */}
               <BsHeartFill
                 className={`${
                   likedDogs.includes(dog.id)
@@ -95,30 +74,24 @@ export function DogsList({ dogs }: { dogs: Dog[] }) {
                     : "text-black/80 dark:text-white/80"
                 } text-2xl z-10 data-[hover]:bg-foreground/10 -translate-y-2 translate-x-2 absolute top-4 right-4`}
               />
-
-              {/* <Button
-                isIconOnly
-                disabled
-                className=" z-10 data-[hover]:bg-foreground/10 -translate-y-2 translate-x-2 absolute top-3 right-3"
-                radius="full"
-                variant="light"
-                onPress={() => toggleFavorite(dog.id)}
-              >
-                <BsHeartFill
-                  className={`${
-                    likedDogs.includes(dog.id)
-                      ? "text-red-500"
-                      : "text-black/80 dark:text-white/80"
-                  } text-2xl`}
-                />
-              </Button> */}
             </CardBody>
           </Skeleton>
           <Skeleton isLoaded={!loading} className=" w-full">
             <CardFooter className="text-small justify-between">
-              <b className=" opacity-50">{dog.breed}</b>
-
-              <p className="text-default-500">{dog.age} years</p>
+              {locations
+                .filter((location) => location?.zip_code === dog?.zip_code)
+                .map((location, index) => (
+                  <Chip
+                    key={index}
+                    startContent={<BsGeoFill />}
+                    variant="flat"
+                    color="success"
+                  >
+                    <h2 className="font-semibold text-[12px]">
+                      {location.city}, {location.state}
+                    </h2>
+                  </Chip>
+                ))}
             </CardFooter>
           </Skeleton>
         </Card>

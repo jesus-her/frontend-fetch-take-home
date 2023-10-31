@@ -1,5 +1,4 @@
 "use client";
-
 import { useEffect, useMemo } from "react";
 import { DogsList } from "@/components/dogs-list";
 import { Pagination, Progress } from "@nextui-org/react";
@@ -53,12 +52,8 @@ export default function Home() {
   //     </section>
   //   );
   // }
-
   return (
     <section>
-      <h1 className=" lg:text-5xl text-3xl font-semibold text-left w-full mt-4 mb-8">
-        Help a lucky dog find a new loving home 🐾
-      </h1>
       <Filters />
 
       {loading ? (
@@ -67,7 +62,6 @@ export default function Home() {
           isIndeterminate
           aria-label="Loading..."
           className="max-w-md"
-          color="warning"
         />
       ) : (
         <p className=" text-xs opacity-70">
@@ -79,8 +73,6 @@ export default function Home() {
 
       <div className="w-full flex items-center justify-center">
         <Pagination
-          showControls
-          isCompact
           total={totalResults}
           page={currentPage}
           onChange={setCurrentPage}

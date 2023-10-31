@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React from "react";
 import {
   Navbar,
   NavbarBrand,
@@ -13,7 +13,6 @@ import {
   DropdownMenu,
   Avatar,
   DropdownSection,
-  Image,
 } from "@nextui-org/react";
 import ThemeSwitch from "./theme-switch";
 import { usePathname, useRouter } from "next/navigation";
@@ -24,7 +23,6 @@ import { useDogsStore } from "@/store/dogs-store";
 export default function CustomNavbar() {
   const pathname = usePathname();
   const router = useRouter();
-  const myLikedDogs = useDogsStore((state) => state.myLikedDogs);
 
   const name = useAuthStore((state) => state.name);
   const email = useAuthStore((state) => state.email);
@@ -72,11 +70,6 @@ export default function CustomNavbar() {
               aria-current="page"
               color={pathname === "/favorites" ? "secondary" : "foreground"}
             >
-              {/* <div className=" bg-[#F5A524] absolute -top-2 -right-4 w-4 h-4 flex items-center justify-center rounded-full">
-                <p className=" text-sm text-black font-semibold">
-                  {myLikedDogs.length}
-                </p>
-              </div> */}
               Favorites
             </Link>
           </NavbarItem>
