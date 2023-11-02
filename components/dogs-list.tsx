@@ -77,7 +77,7 @@ export function DogsList({ dogs }: { dogs: Dog[] }) {
             </CardBody>
           </Skeleton>
           <Skeleton isLoaded={!loading} className=" w-full">
-            <CardFooter className="text-small justify-between">
+            <CardFooter className="text-small justify-between mb-4">
               {locations
                 .filter((location) => location?.zip_code === dog?.zip_code)
                 .map((location, index) => (
